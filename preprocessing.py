@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import codecs
-import cPickle
+import pickle
 from collections import Counter
 import matplotlib.pyplot as plt
 import spacy
@@ -16,12 +16,12 @@ CONTEXT_LENGTH = 200  # each side of target entity
 UNKNOWN = u"<unknown>"
 EMBEDDING_DIMENSION = 50
 TARGET_LENGTH = 15
-ENCODING_MAP_1x1 = cPickle.load(open(u"data/1x1_encode_map.pkl"))      # We need these maps
-ENCODING_MAP_2x2 = cPickle.load(open(u"data/2x2_encode_map.pkl"))      # and the reverse ones
-REVERSE_MAP_1x1 = cPickle.load(open(u"data/1x1_reverse_map.pkl"))      # to handle the used and
-REVERSE_MAP_2x2 = cPickle.load(open(u"data/2x2_reverse_map.pkl"))      # unused map_vector polygons.
-OUTLIERS_MAP_1x1 = cPickle.load(open(u"data/1x1_outliers_map.pkl"))    # Outliers are redundant polygons that
-OUTLIERS_MAP_2x2 = cPickle.load(open(u"data/2x2_outliers_map.pkl"))    # have been removed but must also be handled.
+ENCODING_MAP_1x1 = pickle.load(open(u"data/1x1_encode_map.pkl"))      # We need these maps
+ENCODING_MAP_2x2 = pickle.load(open(u"data/2x2_encode_map.pkl"))      # and the reverse ones
+REVERSE_MAP_1x1 = pickle.load(open(u"data/1x1_reverse_map.pkl"))      # to handle the used and
+REVERSE_MAP_2x2 = pickle.load(open(u"data/2x2_reverse_map.pkl"))      # unused map_vector polygons.
+OUTLIERS_MAP_1x1 = pickle.load(open(u"data/1x1_outliers_map.pkl"))    # Outliers are redundant polygons that
+OUTLIERS_MAP_2x2 = pickle.load(open(u"data/2x2_outliers_map.pkl"))    # have been removed but must also be handled.
 # -------- GLOBAL CONSTANTS AND VARIABLES -------- #
 
 
@@ -35,8 +35,8 @@ def print_stats(accuracy):
     print(u"Mean error:", np.mean(accuracy))
     accuracy = np.log(np.array(accuracy) + 1)
     k = np.log(161)
-    print u"Accuracy to 161 km: ", sum([1.0 for dist in accuracy if dist < k]) / len(accuracy)
-    print u"AUC = ", np.trapz(accuracy) / (np.log(20039) * (len(accuracy) - 1))  # Trapezoidal rule.
+    print(u"Accuracy to 161 km: ", sum([1.0 for dist in accuracy if dist < k]) / len(accuracy))
+    print(u"AUC = ", np.trapz(accuracy) / (np.log(20039) * (len(accuracy) - 1)))  # Trapezoidal rule.
     print("==============================================================================================")
 
 
@@ -407,7 +407,7 @@ def generate_evaluation_data(corpus, file_name):
                         o.write(str(target_grid) + u"\t" + str([t.lower() for t in lookup.split()][:TARGET_LENGTH]))
                         o.write(u"\t" + str(entities_near) + u"\t" + str(entities_far) + u"\n")
             if not captured:
-                print line_no, line, target, start, end
+                print(line_no, line, target, start, end)
     o.close()
 
 
@@ -461,7 +461,7 @@ def generate_vocabulary(path, min_words, min_entities):
 
     vocabulary = vocab_words.union(vocab_locations)
     word_to_index = dict([(w, i) for i, w in enumerate(vocabulary)])
-    cPickle.dump(word_to_index, open(u"data/words2index.pkl", "w"))
+    pickle.dump(word_to_index, open(u"data/words2index.pkl", "w"))
 
 
 def generate_arrays_from_file(path, words_to_index, train=True):
@@ -651,7 +651,7 @@ def shrink_map_vector(polygon_size):
         lat, lon = float(line[4]), float(line[5])
         index = coord_to_index((lat, lon), polygon_size=polygon_size)
         map_vector[index] += 1.0
-    cPickle.dump(map_vector, open(u"mapvec_shrink.pkl", "w"))
+    pickle.dump(map_vector, open(u"mapvec_shrink.pkl", "w"))
 
 
 def oracle(path):
