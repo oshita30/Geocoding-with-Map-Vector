@@ -16,12 +16,12 @@ CONTEXT_LENGTH = 200  # each side of target entity
 UNKNOWN = u"<unknown>"
 EMBEDDING_DIMENSION = 50
 TARGET_LENGTH = 15
-ENCODING_MAP_1x1 = pickle.load(open(u"data/1x1_encode_map.pkl"))      # We need these maps
-ENCODING_MAP_2x2 = pickle.load(open(u"data/2x2_encode_map.pkl"))      # and the reverse ones
-REVERSE_MAP_1x1 = pickle.load(open(u"data/1x1_reverse_map.pkl"))      # to handle the used and
-REVERSE_MAP_2x2 = pickle.load(open(u"data/2x2_reverse_map.pkl"))      # unused map_vector polygons.
-OUTLIERS_MAP_1x1 = pickle.load(open(u"data/1x1_outliers_map.pkl"))    # Outliers are redundant polygons that
-OUTLIERS_MAP_2x2 = pickle.load(open(u"data/2x2_outliers_map.pkl"))    # have been removed but must also be handled.
+ENCODING_MAP_1x1 = pickle.load(open(b"data/1x1_encode_map.pkl"))      # We need these maps
+ENCODING_MAP_2x2 = pickle.load(open(b"data/2x2_encode_map.pkl"))      # and the reverse ones
+REVERSE_MAP_1x1 = pickle.load(open(b"data/1x1_reverse_map.pkl"))      # to handle the used and
+REVERSE_MAP_2x2 = pickle.load(open(b"data/2x2_reverse_map.pkl"))      # unused map_vector polygons.
+OUTLIERS_MAP_1x1 = pickle.load(open(b"data/1x1_outliers_map.pkl"))    # Outliers are redundant polygons that
+OUTLIERS_MAP_2x2 = pickle.load(open(b"data/2x2_outliers_map.pkl"))    # have been removed but must also be handled.
 # -------- GLOBAL CONSTANTS AND VARIABLES -------- #
 
 
