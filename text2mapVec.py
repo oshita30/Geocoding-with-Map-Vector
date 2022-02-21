@@ -42,7 +42,7 @@ def text2mapvec(doc, mapping, outliers, polygon_size, db, exclude):
                 entities.extend(coords)
             location = u""
 
-    entities = sorted(entities, key=lambda (a, b, c, d): c, reverse=True)
+    entities = sorted(entities, key=lambda a, b, c, d: c, reverse=True)
     mapvec = np.zeros(len(mapping), )
 
     if len(entities) == 0:
