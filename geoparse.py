@@ -1,4 +1,4 @@
-import cPickle
+import pickle
 import codecs
 import sqlite3
 from genericpath import isfile
@@ -15,7 +15,7 @@ model = load_model("../data/weights")  # weights to be downloaded from Cambridge
 nlp = spacy.load(u'en_core_web_lg')  # or spacy.load(u'en') depending on your Spacy Download (simple or full)
 conn = sqlite3.connect(u'../data/geonames.db').cursor()  # this DB can be downloaded using the GitHub link
 padding = nlp(u"0")[0]  # Do I need to explain? :-)
-word_to_index = cPickle.load(open(u"data/words2index.pkl"))  # This is the vocabulary file
+word_to_index = pickle.load(open(u"data/words2index.pkl",'rb'))  # This is the vocabulary file
 
 for word in nlp.Defaults.stop_words:  # This is only necessary if you use the full Spacy English model
     lex = nlp.vocab[word]             # so if you use spacy.load(u'en'), you can comment this out.
@@ -75,11 +75,11 @@ def geoparse(text):
             for candidate in candidates:
                 err = great_circle(prediction, (float(candidate[0]), float(candidate[1]))).km
                 best_candidate.append((err - (err * max(1, candidate[2]) / max(1, max_pop)) * bias, (float(candidate[0]), float(candidate[1]))))
-            best_candidate = sorted(best_candidate, key=lambda (a, b): a)[0]
+            best_candidate = sorted(best_candidate, key=lambda a, b: a)[0]
 
             # England,, England,, 51.5,, -0.11,, 669,, 676 || - use evaluation script to test correctness
-            print name, start, end
-            print u"Coordinates:", best_candidate[1]
+            print(name, start, end)
+            print(u"Coordinates:", best_candidate[1])
 
 
 # Example usage of the geoparse function below reading from a directory and parsing all files.
@@ -87,5 +87,5 @@ directory = u"/Users/milangritta/PycharmProjects/data/lgl/"
 files = [f for f in listdir(directory) if isfile(directory + f)]
 for f in files:
     for line in codecs.open(directory + f, encoding="utf-8"):
-        print line
+        print(line)
         geoparse(line)
